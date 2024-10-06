@@ -23,13 +23,20 @@ struct naive_data* mk_naive(struct record* rs, int n) {
 }
 
 void free_naive(struct naive_data* data) {
-  assert(0);
-  // TODO
+  free(data);
 }
 
 const struct record* lookup_naive(struct naive_data *data, double lon, double lat) {
-  assert(0);
-  // TODO
+  double closestDistance = calEuclidean(lon, data->rs[0].lon, lat, data->rs[0].lat);
+  int index = 0;
+  for (int i = 1; i < (data->n); i++){
+    double currentDistance =  calEuclidean(lon, data->rs[i].lon, lat, data->rs[i].lat);
+    if (currentDistance < closestDistance){
+      closestDistance = currentDistance;
+      index = i;
+    }
+  }
+  return &(data->rs)[index];
 }
 
 int main(int argc, char** argv) {
